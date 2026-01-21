@@ -26,6 +26,9 @@ RUN uv sync --frozen --no-dev
 # Copy application code
 COPY . /code
 
+# Generate BAML client
+RUN uv run baml-cli generate
+
 # Build Tailwind CSS using the CLI directly
 # Build Tailwind CSS
 RUN npm install tailwindcss @tailwindcss/cli \
