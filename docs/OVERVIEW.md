@@ -1,8 +1,8 @@
 # Disneybound Planner - Project Dashboard
 
 > **Status**: Active Development
-> **Sprint**: 0 (Initial Setup)
-> **Last Updated**: 2026-01-20
+> **Sprint**: 1 (Character Search)
+> **Last Updated**: 2026-01-21
 
 ---
 
@@ -17,21 +17,30 @@
 
 ---
 
-## Current Sprint: Sprint 0 - Foundation
+## Current Sprint: Sprint 1 - Character Search
 
 ### Enhancement Proposals
 
 | ID | Title | Status | Tickets |
 |----|-------|--------|---------|
-| EP-001 | Project Foundation & Architecture | In Progress | T-001, T-002, T-003 |
+| EP-001 | Project Foundation & Architecture | Complete | T-001, T-002, T-003 |
+| EP-002 | Character Search by Name | Draft | T-004, T-005, T-006 |
 
 ### Active Tickets
 
 | ID | Title | EP | Status | Assignee |
 |----|-------|-----|--------|----------|
-| T-001 | Initialize Django project with uv | EP-001 | Done | Agent |
-| T-002 | Set up Fly.io + Neon deployment | EP-001 | Done | Agent |
-| T-003 | Configure Tailwind semantic CSS system | EP-001 | Done | Agent |
+| T-004 | Create BAML character extraction function | EP-002 | Pending | - |
+| T-005 | Add character search view and URL | EP-002 | Pending | - |
+| T-006 | Build search UI with HTMX | EP-002 | Pending | - |
+
+### Completed Tickets (Sprint 0)
+
+| ID | Title | EP | Status |
+|----|-------|-----|--------|
+| T-001 | Initialize Django project with uv | EP-001 | Done |
+| T-002 | Set up Fly.io + Neon deployment | EP-001 | Done |
+| T-003 | Configure Tailwind semantic CSS system | EP-001 | Done |
 
 ---
 
@@ -58,11 +67,19 @@
 ## Project Statistics
 
 ```
-Enhancement Proposals: 1 active, 0 archived
-Tickets:              3 active, 0 archived
+Enhancement Proposals: 2 active (1 complete, 1 draft), 0 archived
+Tickets:              6 total (3 done, 3 pending), 0 archived
 Patterns:             0 documented
 Runbook Entries:      0 documented
 ```
+
+## Production Deployment
+
+| Resource | URL |
+|----------|-----|
+| Live Site | https://disneybound-planner-hidden-sunset-2589.fly.dev/ |
+| Fly.io Dashboard | https://fly.io/apps/disneybound-planner-hidden-sunset-2589 |
+| GitHub Actions | https://github.com/johnhkchen/disneybound_planner/actions |
 
 ---
 
