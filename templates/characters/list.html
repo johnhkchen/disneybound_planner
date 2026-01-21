@@ -2,35 +2,75 @@
 
 {% block page_title %}Characters{% endblock %}
 
-{% block page_actions %}
-<div class="form-group">
-  <select class="form-select" name="category">
-    <option value="">All Categories</option>
-    <option value="princess">Princesses</option>
-    <option value="villain">Villains</option>
-    <option value="pixar">Pixar</option>
-    <option value="marvel">Marvel</option>
-    <option value="starwars">Star Wars</option>
-  </select>
-</div>
-{% endblock %}
-
 {% block page_content %}
-<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-  <!-- Placeholder character cards -->
-  <div class="empty-state col-span-full">
-    <div class="empty-state-icon">
-      <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-      </svg>
+<!-- Search Section -->
+<div class="mb-8">
+  <form
+    hx-post="{% url 'characters:search' %}"
+    hx-target="#search-results"
+    hx-indicator="#search-spinner"
+    class="max-w-2xl mx-auto"
+  >
+    {% csrf_token %}
+    <div class="flex gap-3">
+      <div class="flex-1">
+        <input
+          type="text"
+          name="q"
+          class="form-input w-full text-lg"
+          placeholder="Search for a character (e.g., Flounder, Elsa, the fish from Little Mermaid...)"
+          autocomplete="off"
+          required
+        >
+      </div>
+      <button type="submit" class="btn btn-primary px-6">
+        <span id="search-spinner" class="htmx-indicator">
+          <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </span>
+        Search
+      </button>
     </div>
-    <h3 class="empty-state-title">No characters yet</h3>
-    <p class="empty-state-description">
-      Run the scraping pipeline to populate character data.
+    <p class="form-help mt-2 text-center">
+      Find any Disney character and get their color palette for Disneybounding
     </p>
-    <code class="text-sm bg-gray-100 px-2 py-1 rounded mt-4 inline-block">
-      just manage scrape_characters
-    </code>
+  </form>
+</div>
+
+<!-- Search Results -->
+<div id="search-results">
+  <!-- Results will be loaded here via HTMX -->
+</div>
+
+<!-- Browse Section -->
+<div class="mt-12">
+  <h2 class="heading-section mb-4">Browse Characters</h2>
+  <div class="flex gap-2 mb-6">
+    <select class="form-select" name="category">
+      <option value="">All Categories</option>
+      <option value="princess">Princesses</option>
+      <option value="villain">Villains</option>
+      <option value="pixar">Pixar</option>
+      <option value="marvel">Marvel</option>
+      <option value="starwars">Star Wars</option>
+    </select>
+  </div>
+
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    <!-- Placeholder character cards -->
+    <div class="empty-state col-span-full">
+      <div class="empty-state-icon">
+        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+        </svg>
+      </div>
+      <h3 class="empty-state-title">No saved characters yet</h3>
+      <p class="empty-state-description">
+        Search for characters above to discover their color palettes.
+      </p>
+    </div>
   </div>
 </div>
 {% endblock %}

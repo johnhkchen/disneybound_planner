@@ -1,6 +1,6 @@
 # EP-002: Character Search by Name
 
-> **Status**: Draft
+> **Status**: Implemented
 > **Created**: 2026-01-20
 > **Sprint**: 1
 > **Author**: Agent
@@ -44,20 +44,19 @@ User Input → HTMX Request → Django View → BAML/Gemini API → Character Da
 
 ### Affected Components
 
-- [ ] `apps/characters/` - Add search view and URL
-- [ ] `apps/ai/` - Add BAML function for character identification
-- [ ] `baml/` - Define character extraction schema
-- [ ] `templates/characters/` - Add search UI and results template
-- [ ] `templates/partials/` - Add HTMX partial for search results
+- [x] `apps/characters/` - Add search view and URL
+- [x] `baml_src/` - Define character extraction schema and SearchCharacter function
+- [x] `templates/characters/` - Add search UI and results template
+- [x] `templates/characters/partials/` - Add HTMX partial for search results
 
 ## Acceptance Criteria
 
-- [ ] User can enter a character name in a search field
-- [ ] Search returns character info including name, source film, and description
-- [ ] Search returns a color palette (3-5 colors) representing the character
-- [ ] Results display using existing card and color swatch components
-- [ ] Search handles unknown characters gracefully with helpful message
-- [ ] Works with partial/fuzzy names (e.g., "Flounder", "the fish from little mermaid")
+- [x] User can enter a character name in a search field
+- [x] Search returns character info including name, source film, and description
+- [x] Search returns a color palette (3-5 colors) representing the character
+- [x] Results display using existing card and color swatch components
+- [x] Search handles unknown characters gracefully with helpful message
+- [x] Works with partial/fuzzy names (e.g., "Flounder", "the fish from little mermaid")
 
 ## Test Case: Flounder
 
@@ -77,9 +76,9 @@ User Input → HTMX Request → Django View → BAML/Gemini API → Character Da
 
 | Ticket | Title | Status |
 |--------|-------|--------|
-| T-004 | Create BAML character extraction function | Pending |
-| T-005 | Add character search view and URL | Pending |
-| T-006 | Build search UI with HTMX | Pending |
+| T-004 | Create BAML character extraction function | Done |
+| T-005 | Add character search view and URL | Done |
+| T-006 | Build search UI with HTMX | Done |
 
 ## Open Questions
 
@@ -100,3 +99,4 @@ User Input → HTMX Request → Django View → BAML/Gemini API → Character Da
 | Date | Change |
 |------|--------|
 | 2026-01-20 | Created |
+| 2026-01-20 | Implemented: BAML SearchCharacter function, search view/URL, HTMX search UI |
