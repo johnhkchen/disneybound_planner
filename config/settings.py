@@ -5,7 +5,6 @@ For the full list of settings, see:
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
-import os
 from pathlib import Path
 
 import environ
@@ -162,7 +161,11 @@ AUTHENTICATION_BACKENDS = [
 # django-allauth settings
 SITE_ID = 1
 ACCOUNT_LOGIN_METHODS = {"email"}  # Login via email only
-ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*"]  # Email required, no username
+ACCOUNT_SIGNUP_FIELDS = [
+    "email*",
+    "password1*",
+    "password2*",
+]  # Email required, no username
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 LOGIN_REDIRECT_URL = "/"
@@ -178,7 +181,9 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},

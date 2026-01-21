@@ -30,19 +30,27 @@ def character_list(request: HttpRequest) -> HttpResponse:
     # Get distinct categories for the filter dropdown
     categories = Character.objects.values_list("category", flat=True).distinct()
 
-    return render(request, "characters/list.html", {
-        "characters": characters,
-        "categories": sorted(set(categories)),
-        "selected_category": category,
-    })
+    return render(
+        request,
+        "characters/list.html",
+        {
+            "characters": characters,
+            "categories": sorted(set(categories)),
+            "selected_category": category,
+        },
+    )
 
 
 def character_detail(request: HttpRequest, pk: int) -> HttpResponse:
     """Display a single character's details."""
     character = get_object_or_404(Character, pk=pk)
-    return render(request, "characters/detail.html", {
-        "character": character,
-    })
+    return render(
+        request,
+        "characters/detail.html",
+        {
+            "character": character,
+        },
+    )
 
 
 def _fetch_thumbnail_async(character):
@@ -59,9 +67,11 @@ def search(request: HttpRequest) -> HttpResponse:
     query = request.POST.get("q", "").strip()
 
     if not query:
-        return render(request, "characters/partials/search_results.html", {
-            "error": "Please enter a character name to search."
-        })
+        return render(
+            request,
+            "characters/partials/search_results.html",
+            {"error": "Please enter a character name to search."},
+        )
 
     # Normalize query for consistent matching
     normalized = normalize_query(query)
@@ -81,11 +91,15 @@ def search(request: HttpRequest) -> HttpResponse:
             )
             thread.start()
 
-        return render(request, "characters/partials/search_results.html", {
-            "result": cached_character.to_result_dict(),
-            "query": query,
-            "cached": True,
-        })
+        return render(
+            request,
+            "characters/partials/search_results.html",
+            {
+                "result": cached_character.to_result_dict(),
+                "query": query,
+                "cached": True,
+            },
+        )
 
     # Cache miss - call BAML
     try:
@@ -104,14 +118,22 @@ def search(request: HttpRequest) -> HttpResponse:
                 )
                 thread.start()
 
-        return render(request, "characters/partials/search_results.html", {
-            "result": result,
-            "query": query,
-            "cached": False,
-        })
+        return render(
+            request,
+            "characters/partials/search_results.html",
+            {
+                "result": result,
+                "query": query,
+                "cached": False,
+            },
+        )
     except Exception as e:
         logger.error(f"Search failed: {e}")
-        return render(request, "characters/partials/search_results.html", {
-            "error": f"Search failed: {str(e)}",
-            "query": query,
-        })
+        return render(
+            request,
+            "characters/partials/search_results.html",
+            {
+                "error": f"Search failed: {str(e)}",
+                "query": query,
+            },
+        )

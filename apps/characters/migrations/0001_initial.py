@@ -6,30 +6,47 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Character',
+            name="Character",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(db_index=True, max_length=255)),
-                ('movie', models.CharField(max_length=255)),
-                ('category', models.CharField(max_length=100)),
-                ('description', models.TextField()),
-                ('search_queries', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), blank=True, default=list)),
-                ('thumbnail_url', models.URLField(blank=True, max_length=500)),
-                ('image_attribution', models.CharField(blank=True, max_length=500)),
-                ('colors', models.JSONField(default=list)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(db_index=True, max_length=255)),
+                ("movie", models.CharField(max_length=255)),
+                ("category", models.CharField(max_length=100)),
+                ("description", models.TextField()),
+                (
+                    "search_queries",
+                    django.contrib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=255),
+                        blank=True,
+                        default=list,
+                    ),
+                ),
+                ("thumbnail_url", models.URLField(blank=True, max_length=500)),
+                ("image_attribution", models.CharField(blank=True, max_length=500)),
+                ("colors", models.JSONField(default=list)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'indexes': [django.contrib.postgres.indexes.GinIndex(fields=['search_queries'], name='character_queries_gin')],
+                "indexes": [
+                    django.contrib.postgres.indexes.GinIndex(
+                        fields=["search_queries"], name="character_queries_gin"
+                    )
+                ],
             },
         ),
     ]

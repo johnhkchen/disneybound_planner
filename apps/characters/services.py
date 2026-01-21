@@ -30,15 +30,17 @@ def find_cached_character(query: str) -> Optional[Character]:
     normalized = normalize_query(query)
 
     # Try exact name match first (case-insensitive)
-    character = Character.objects.annotate(name_lower=Lower("name")).filter(
-        name_lower=normalized
-    ).first()
+    character = (
+        Character.objects.annotate(name_lower=Lower("name"))
+        .filter(name_lower=normalized)
+        .first()
+    )
 
     if character:
         return character
 
     # Check if query exists in search_queries array
-    character = Character.objects.filter(search_queries__contains=[normalized]).first()
+    character = Character.objects.filter(search_queries__contains=[normalized]).first()  # type: ignore[assignment]
 
     return character
 
@@ -60,9 +62,11 @@ def save_character_from_result(result, query: str) -> Optional[Character]:
     normalized_query = normalize_query(query)
 
     # Check if character already exists by name
-    existing = Character.objects.annotate(name_lower=Lower("name")).filter(
-        name_lower=result.name.lower()
-    ).first()
+    existing = (
+        Character.objects.annotate(name_lower=Lower("name"))
+        .filter(name_lower=result.name.lower())
+        .first()
+    )
 
     if existing:
         # Add query to search_queries if not already present
@@ -74,11 +78,13 @@ def save_character_from_result(result, query: str) -> Optional[Character]:
     # Convert colors from BAML objects to dicts
     colors_data = []
     for color in result.colors:
-        colors_data.append({
-            "hex": color.hex,
-            "name": color.name,
-            "usage": color.usage,
-        })
+        colors_data.append(
+            {
+                "hex": color.hex,
+                "name": color.name,
+                "usage": color.usage,
+            }
+        )
 
     # Create new character
     character = Character.objects.create(
@@ -149,12 +155,23 @@ def fetch_character_thumbnail(character: Character) -> bool:
             character_name_lower = character.name.lower()
             for cast_member in credits.get("cast", []):
                 cast_character = cast_member.get("character", "").lower()
-                if character_name_lower in cast_character or cast_character in character_name_lower:
+                if (
+                    character_name_lower in cast_character
+                    or cast_character in character_name_lower
+                ):
                     profile_path = cast_member.get("profile_path")
                     if profile_path:
-                        character.thumbnail_url = f"{settings.TMDB_IMAGE_BASE_URL}{profile_path}"
+                        character.thumbnail_url = (
+                            f"{settings.TMDB_IMAGE_BASE_URL}{profile_path}"
+                        )
                         character.image_attribution = "Image from TMDB"
-                        character.save(update_fields=["thumbnail_url", "image_attribution", "updated_at"])
+                        character.save(
+                            update_fields=[
+                                "thumbnail_url",
+                                "image_attribution",
+                                "updated_at",
+                            ]
+                        )
                         logger.info(f"Found thumbnail for {character.name}")
                         return True
 

@@ -40,17 +40,33 @@ Plan Disney-inspired everyday outfits for your theme park visits. "Disneyboundin
 git clone https://github.com/yourusername/disneybound-planner.git
 cd disneybound-planner
 
-# Run setup (copies .env.example, installs dependencies)
+# Run the interactive setup wizard
 just setup
+```
 
-# Edit .env with your Neon DATABASE_URL and GOOGLE_API_KEY
-# Get a Neon database at https://neon.tech
+The setup wizard will:
+1. Check prerequisites (Python, uv, Node.js)
+2. Let you choose between **Doppler** (recommended for teams) or local **.env** file
+3. Guide you through configuring secrets (DATABASE_URL, GOOGLE_API_KEY)
+4. Install dependencies
+5. Run database migrations
+6. Generate BAML client
 
-# Run migrations
-just migrate
+#### Secrets Management Options
 
-# Start the development server
+| Method | Best For | Command |
+|--------|----------|---------|
+| **Doppler** | Teams, centralized secrets | `just setup` then select Doppler |
+| **.env file** | Solo development, quick start | `just setup` then select .env |
+
+After setup, start the development server:
+
+```bash
+# With .env file
 just dev
+
+# With Doppler
+just dev-doppler
 ```
 
 Visit http://localhost:8000 to see the app.
@@ -117,8 +133,14 @@ disneybound_planner/
 Run `just` to see all available commands:
 
 ```bash
+# Setup
+just setup            # Interactive setup wizard
+just setup-doppler    # Setup with Doppler (skip prompts)
+just setup-env        # Setup with .env file (skip prompts)
+
 # Development
-just dev              # Start Django dev server
+just dev              # Start Django dev server (uses .env)
+just dev-doppler      # Start Django dev server (uses Doppler)
 just test             # Run tests
 just migrate          # Run migrations
 just shell            # Django shell
