@@ -4,52 +4,103 @@
 <nav class="text-sm mb-4">
   <a href="{% url 'characters:list' %}" class="text-link">Characters</a>
   <span class="text-gray-400 mx-2">/</span>
-  <span class="text-gray-600">Character Details</span>
+  <span class="text-gray-600">{{ character.name }}</span>
 </nav>
 {% endblock %}
 
-{% block page_title %}Character Details{% endblock %}
-
-{% block page_actions %}
-<a href="{% url 'outfits:create' %}" class="btn btn-primary">
-  Create Outfit
-</a>
-{% endblock %}
+{% block page_title %}{{ character.name }}{% endblock %}
 
 {% block page_content %}
-<div class="grid lg:grid-cols-3 gap-8">
-  <!-- Character Info -->
-  <div class="lg:col-span-1">
-    <div class="card card-body">
-      <div class="aspect-square bg-gray-100 rounded-lg mb-4"></div>
-      <h2 class="heading-2 mb-2">Character Name</h2>
-      <p class="text-muted mb-4">Movie Name (Year)</p>
+<div class="max-w-4xl mx-auto">
+  <div class="card overflow-hidden">
+    <div class="card-body">
+      <!-- Header with Thumbnail -->
+      <div class="flex items-start gap-6 mb-6">
+        <!-- Thumbnail or Placeholder -->
+        {% if character.thumbnail_url %}
+        <div class="flex-shrink-0">
+          <img
+            src="{{ character.thumbnail_url }}"
+            alt="{{ character.name }}"
+            class="w-32 h-32 rounded-xl object-cover shadow-lg"
+          />
+          {% if character.image_attribution %}
+          <p class="text-xs text-gray-400 mt-2 text-center">{{ character.image_attribution }}</p>
+          {% endif %}
+        </div>
+        {% else %}
+        <div class="flex-shrink-0">
+          <div
+            class="w-32 h-32 rounded-xl shadow-lg flex items-center justify-center"
+            style="background: linear-gradient(135deg, {% if character.colors %}{{ character.colors.0.hex }}{% else %}#6366f1{% endif %} 0%, {% if character.colors|length > 1 %}{{ character.colors.1.hex }}{% else %}#8b5cf6{% endif %} 100%);"
+          >
+            <span class="text-5xl text-white/80 font-bold">{{ character.name|slice:":1"|upper }}</span>
+          </div>
+        </div>
+        {% endif %}
 
-      <h3 class="heading-section">Color Palette</h3>
-      <div class="color-palette mb-4">
-        <div class="color-swatch bg-blue-400"></div>
-        <div class="color-swatch bg-white"></div>
-        <div class="color-swatch bg-yellow-300"></div>
+        <div class="flex-1">
+          <div class="flex items-start justify-between mb-2">
+            <div>
+              <h1 class="text-3xl font-bold text-gray-900">{{ character.name }}</h1>
+              <p class="text-lg text-gray-600">{{ character.movie }}</p>
+            </div>
+            <span class="badge text-sm px-3 py-1
+              {% if character.category == 'Princess' %}bg-pink-100 text-pink-700
+              {% elif character.category == 'Villain' %}bg-purple-100 text-purple-700
+              {% elif character.category == 'Pixar' %}bg-blue-100 text-blue-700
+              {% elif character.category == 'Sidekick' %}bg-yellow-100 text-yellow-700
+              {% else %}bg-gray-100 text-gray-700{% endif %}
+            ">
+              {{ character.category }}
+            </span>
+          </div>
+
+          <p class="text-gray-700 mt-4">{{ character.description }}</p>
+        </div>
       </div>
 
-      <h3 class="heading-section">Tags</h3>
-      <div class="flex flex-wrap gap-2">
-        <span class="badge badge-primary">Princess</span>
-        <span class="badge badge-primary">Classic</span>
+      <!-- Color Palette -->
+      <div class="border-t border-gray-100 pt-6">
+        <h2 class="heading-section mb-4">Color Palette for Disneybounding</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {% for color in character.colors %}
+          <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
+            <div
+              class="w-16 h-16 rounded-xl shadow-inner border border-gray-200 flex-shrink-0"
+              style="background-color: {{ color.hex }};"
+              title="{{ color.hex }}"
+            ></div>
+            <div class="min-w-0">
+              <div class="font-semibold text-gray-900">{{ color.name }}</div>
+              <div class="text-sm text-gray-500">{{ color.usage }}</div>
+              <div class="text-xs text-gray-400 font-mono mt-1">{{ color.hex }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Outfit Ideas -->
-  <div class="lg:col-span-2">
-    <h3 class="heading-2 mb-6">Outfit Ideas</h3>
-    <div class="empty-state">
-      <p class="empty-state-description">
-        No community outfits for this character yet.
-      </p>
-      <a href="{% url 'outfits:create' %}" class="btn btn-primary mt-4">
-        Be the first to create one
-      </a>
+      <!-- Quick Color Reference -->
+      <div class="border-t border-gray-100 pt-6 mt-6">
+        <p class="text-sm text-gray-500 mb-3">Quick color reference:</p>
+        <div class="flex gap-3 flex-wrap">
+          {% for color in character.colors %}
+          <div
+            class="w-12 h-12 rounded-full border-2 border-white shadow-lg cursor-pointer hover:scale-110 transition-transform"
+            style="background-color: {{ color.hex }};"
+            title="{{ color.name }} - {{ color.hex }}"
+          ></div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Back Link -->
+      <div class="border-t border-gray-100 pt-6 mt-6">
+        <a href="{% url 'characters:list' %}" class="text-link">
+          &larr; Back to Character Catalog
+        </a>
+      </div>
     </div>
   </div>
 </div>

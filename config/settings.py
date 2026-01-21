@@ -53,6 +53,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",  # Required by allauth
+    "django.contrib.postgres",  # For ArrayField, GinIndex
 ]
 
 THIRD_PARTY_APPS = [
@@ -65,7 +66,7 @@ THIRD_PARTY_APPS = [
     "django_components",
     "django_htmx",
     "tailwind",
-    # "theme",  # Tailwind theme app - uncomment after `just tailwind-init`
+    "theme",  # Tailwind theme app
 ]
 
 LOCAL_APPS = [
@@ -201,15 +202,26 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# WhiteNoise for production static files
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+# Static files storage
+# Use simple storage in development, WhiteNoise manifest storage in production
+if DEBUG:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
 
 # =============================================================================
 # MEDIA FILES
@@ -250,6 +262,14 @@ COMPONENTS = {
 # =============================================================================
 
 GOOGLE_API_KEY = env("GOOGLE_API_KEY", default="")
+
+# =============================================================================
+# TMDB API (Character Thumbnails)
+# =============================================================================
+
+TMDB_API_KEY = env("TMDB_API_KEY", default="")
+TMDB_BASE_URL = "https://api.themoviedb.org/3"
+TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w185"
 
 # =============================================================================
 # SCRAPING

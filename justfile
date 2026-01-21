@@ -203,19 +203,26 @@ gh-create:
 # SETUP (First Time)
 # =============================================================================
 
-# Complete first-time local setup
+# Interactive setup wizard (recommended for new developers)
 setup:
-    @echo "Setting up Disneybound Planner..."
+    ./scripts/setup.sh
+
+# Setup with Doppler only (skip prompts)
+setup-doppler:
+    doppler run -- uv sync
+    doppler run -- uv run python manage.py migrate
+    just baml-generate
+    @echo ""
+    @echo "Setup complete! Run 'just dev-doppler' to start."
+
+# Setup with .env only (skip prompts)
+setup-env:
     cp .env.example .env 2>/dev/null || echo ".env already exists"
-    @echo ""
-    @echo "Edit .env with your DATABASE_URL (from Neon) and other settings"
-    @echo ""
     uv sync
     @echo ""
-    @echo "Local setup complete!"
-    @echo "  1. Edit .env with your Neon DATABASE_URL"
-    @echo "  2. Run 'just migrate'"
-    @echo "  3. Run 'just dev' to start the server"
+    @echo "Edit .env with your DATABASE_URL, GOOGLE_API_KEY, and TMDB_API_KEY"
+    @echo "Get TMDB API key from: https://www.themoviedb.org/settings/api"
+    @echo "Then run 'just migrate' and 'just dev'"
 
 # First-time Fly.io deployment setup
 fly-setup:
@@ -226,5 +233,30 @@ fly-setup:
     @echo "3. Run: just db-url 'postgres://...'"
     @echo "4. Run: just secret SECRET_KEY \$$(just gen-secret-key)"
     @echo "5. Run: just secret GOOGLE_API_KEY your-api-key"
-    @echo "6. Add FLY_API_TOKEN to GitHub repo secrets"
-    @echo "7. Push to main - deploys automatically!"
+    @echo "6. Run: just secret TMDB_API_KEY your-tmdb-read-token"
+    @echo "7. Add FLY_API_TOKEN to GitHub repo secrets"
+    @echo "8. Push to main - deploys automatically!"
+
+# =============================================================================
+# DOPPLER
+# =============================================================================
+
+# Start dev server with Doppler secrets
+dev-doppler:
+    doppler run -- uv run python manage.py runserver
+
+# Run any command with Doppler secrets
+run-doppler *ARGS:
+    doppler run -- {{ ARGS }}
+
+# Run migrations with Doppler
+migrate-doppler:
+    doppler run -- uv run python manage.py migrate
+
+# Run tests with Doppler
+test-doppler:
+    doppler run -- uv run python manage.py test
+
+# Run Django shell with Doppler
+shell-doppler:
+    doppler run -- uv run python manage.py shell

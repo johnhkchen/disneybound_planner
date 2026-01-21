@@ -16,22 +16,59 @@
   <!-- Character Found -->
   <div class="card max-w-2xl mx-auto overflow-hidden">
     <div class="card-body">
-      <!-- Header -->
-      <div class="flex items-start justify-between mb-4">
-        <div>
-          <h2 class="text-2xl font-bold text-gray-900">{{ result.name }}</h2>
-          <p class="text-gray-600">{{ result.movie }}</p>
+      <!-- Header with Thumbnail -->
+      <div class="flex items-start gap-4 mb-4">
+        <!-- Thumbnail or Placeholder -->
+        {% if result.thumbnail_url %}
+        <div class="flex-shrink-0">
+          <img
+            src="{{ result.thumbnail_url }}"
+            alt="{{ result.name }}"
+            class="w-20 h-20 rounded-lg object-cover shadow-md"
+          />
+          {% if result.image_attribution %}
+          <p class="text-xs text-gray-400 mt-1 text-center">{{ result.image_attribution }}</p>
+          {% endif %}
         </div>
-        <span class="badge
-          {% if result.category == 'Princess' %}badge-primary
-          {% elif result.category == 'Villain' %}bg-purple-100 text-purple-800
-          {% elif result.category == 'Pixar' %}bg-blue-100 text-blue-800
-          {% elif result.category == 'Sidekick' %}bg-yellow-100 text-yellow-800
-          {% else %}badge-secondary{% endif %}
-        ">
-          {{ result.category }}
+        {% else %}
+        <!-- Color placeholder using first palette color -->
+        <div class="flex-shrink-0">
+          <div
+            class="w-20 h-20 rounded-lg shadow-md flex items-center justify-center"
+            style="background: linear-gradient(135deg, {% if result.colors %}{{ result.colors.0.hex }}{% else %}#6366f1{% endif %} 0%, {% if result.colors.1 %}{{ result.colors.1.hex }}{% else %}#8b5cf6{% endif %} 100%);"
+          >
+            <span class="text-3xl text-white/80 font-bold">{{ result.name|slice:":1"|upper }}</span>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-900">{{ result.name }}</h2>
+              <p class="text-gray-600">{{ result.movie }}</p>
+            </div>
+            <span class="badge flex-shrink-0 ml-2
+              {% if result.category == 'Princess' %}badge-primary
+              {% elif result.category == 'Villain' %}bg-purple-100 text-purple-800
+              {% elif result.category == 'Pixar' %}bg-blue-100 text-blue-800
+              {% elif result.category == 'Sidekick' %}bg-yellow-100 text-yellow-800
+              {% else %}badge-secondary{% endif %}
+            ">
+              {{ result.category }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cache indicator (dev only) -->
+      {% if cached %}
+      <div class="mb-4">
+        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
+          Cached result
         </span>
       </div>
+      {% endif %}
 
       <!-- Description -->
       <p class="text-gray-700 mb-6">{{ result.description }}</p>

@@ -46,31 +46,84 @@
 
 <!-- Browse Section -->
 <div class="mt-12">
-  <h2 class="heading-section mb-4">Browse Characters</h2>
-  <div class="flex gap-2 mb-6">
-    <select class="form-select" name="category">
+  <h2 class="heading-section mb-4">Character Catalog</h2>
+
+  {% if categories %}
+  <form method="get" class="flex gap-2 mb-6">
+    <select class="form-select" name="category" onchange="this.form.submit()">
       <option value="">All Categories</option>
-      <option value="princess">Princesses</option>
-      <option value="villain">Villains</option>
-      <option value="pixar">Pixar</option>
-      <option value="marvel">Marvel</option>
-      <option value="starwars">Star Wars</option>
+      {% for cat in categories %}
+      <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
+      {% endfor %}
     </select>
-  </div>
+    {% if selected_category %}
+    <a href="{% url 'characters:list' %}" class="btn btn-secondary">Clear</a>
+    {% endif %}
+  </form>
+  {% endif %}
 
   <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-    <!-- Placeholder character cards -->
+    {% for character in characters %}
+    <a href="{% url 'characters:detail' character.pk %}" class="card hover:shadow-lg transition-shadow cursor-pointer group block">
+      <div class="card-body p-4">
+        <!-- Thumbnail or Color Placeholder -->
+        {% if character.thumbnail_url %}
+        <img
+          src="{{ character.thumbnail_url }}"
+          alt="{{ character.name }}"
+          class="w-full h-32 object-cover rounded-lg mb-3"
+        />
+        {% else %}
+        <div
+          class="w-full h-32 rounded-lg mb-3 flex items-center justify-center"
+          style="background: linear-gradient(135deg, {% if character.colors %}{{ character.colors.0.hex }}{% else %}#6366f1{% endif %} 0%, {% if character.colors|length > 1 %}{{ character.colors.1.hex }}{% else %}#8b5cf6{% endif %} 100%);"
+        >
+          <span class="text-4xl text-white/80 font-bold">{{ character.name|slice:":1"|upper }}</span>
+        </div>
+        {% endif %}
+
+        <!-- Character Info -->
+        <h3 class="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors truncate">
+          {{ character.name }}
+        </h3>
+        <p class="text-sm text-gray-500 truncate">{{ character.movie }}</p>
+
+        <!-- Category Badge -->
+        <span class="inline-block mt-2 text-xs px-2 py-1 rounded-full
+          {% if character.category == 'Princess' %}bg-pink-100 text-pink-700
+          {% elif character.category == 'Villain' %}bg-purple-100 text-purple-700
+          {% elif character.category == 'Pixar' %}bg-blue-100 text-blue-700
+          {% elif character.category == 'Sidekick' %}bg-yellow-100 text-yellow-700
+          {% else %}bg-gray-100 text-gray-700{% endif %}
+        ">
+          {{ character.category }}
+        </span>
+
+        <!-- Color Swatches -->
+        <div class="flex gap-1 mt-3">
+          {% for color in character.colors|slice:":5" %}
+          <div
+            class="w-6 h-6 rounded-full border border-white shadow-sm"
+            style="background-color: {{ color.hex }};"
+            title="{{ color.name }}"
+          ></div>
+          {% endfor %}
+        </div>
+      </div>
+    </a>
+    {% empty %}
     <div class="empty-state col-span-full">
       <div class="empty-state-icon">
         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
         </svg>
       </div>
-      <h3 class="empty-state-title">No saved characters yet</h3>
+      <h3 class="empty-state-title">No characters yet</h3>
       <p class="empty-state-description">
-        Search for characters above to discover their color palettes.
+        Search for characters above to build your catalog.
       </p>
     </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
