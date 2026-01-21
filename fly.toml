@@ -29,6 +29,7 @@ console_command = '/code/manage.py shell'
     method = "GET"
     path = "/health/"
     timeout = "5s"
+    headers = { Host = "disneybound-planner-hidden-sunset-2589.fly.dev" }
 
 [[vm]]
   memory = '1gb'
