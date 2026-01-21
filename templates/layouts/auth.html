@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{#
+  Auth Layout - For login, signup, password reset pages
+
+  Provides:
+  - Centered card layout
+  - Clean, focused design for authentication flows
+
+  Blocks:
+  - auth_title: Heading above the form
+  - auth_content: Form content
+  - auth_footer: Links below the form
+#}
+
+{% block nav %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
+  <div class="max-w-md w-full">
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <a href="{% url 'home' %}" class="inline-block">
+        <span class="text-2xl font-bold text-disney-blue">Disneybound</span>
+        <span class="text-2xl text-gray-400">Planner</span>
+      </a>
+    </div>
+
+    <!-- Auth Card -->
+    <div class="card">
+      <div class="card-body">
+        <h1 class="heading-2 text-center mb-6">
+          {% block auth_title %}Welcome{% endblock %}
+        </h1>
+
+        {% block auth_content %}{% endblock %}
+      </div>
+
+      {% block auth_footer %}
+      <div class="card-footer text-center">
+        <p class="text-muted">
+          {% block auth_footer_text %}{% endblock %}
+        </p>
+      </div>
+      {% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block footer %}{% endblock %}

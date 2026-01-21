@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{% block meta_description %}Plan Disney-inspired outfits for your theme park visits{% endblock %}">
+
+  <title>{% block title %}Disneybound Planner{% endblock %}</title>
+
+  <!-- Tailwind CSS -->
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+
+  <!-- Alpine.js (optional, for minor interactivity) -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="h-full flex flex-col" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+  <!-- Navigation -->
+  {% block nav %}
+  <header class="nav-header">
+    <nav class="container-page">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="flex items-center gap-2">
+          <span class="text-xl font-bold text-disney-blue">Disneybound</span>
+          <span class="text-xl text-gray-400">Planner</span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center gap-6">
+          <a href="{% url 'characters:list' %}" class="nav-link">Characters</a>
+          <a href="{% url 'outfits:list' %}" class="nav-link">My Outfits</a>
+          <a href="{% url 'trips:list' %}" class="nav-link">Trips</a>
+
+          {% if user.is_authenticated %}
+            <div class="flex items-center gap-4 ml-4 pl-4 border-l border-gray-200">
+              <span class="text-muted">{{ user.email }}</span>
+              <a href="{% url 'account_logout' %}" class="btn btn-ghost btn-sm">Sign Out</a>
+            </div>
+          {% else %}
+            <div class="flex items-center gap-2 ml-4 pl-4 border-l border-gray-200">
+              <a href="{% url 'account_login' %}" class="btn btn-ghost btn-sm">Sign In</a>
+              <a href="{% url 'account_signup' %}" class="btn btn-primary btn-sm">Sign Up</a>
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Mobile menu button -->
+        <button
+          type="button"
+          class="md:hidden btn-icon"
+          x-data
+          @click="$dispatch('toggle-mobile-menu')"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+  {% endblock nav %}
+
+  <!-- Flash Messages -->
+  {% if messages %}
+  <div class="container-page py-4">
+    {% for message in messages %}
+    <div
+      class="p-4 rounded-lg mb-2 {% if message.tags == 'error' %}bg-red-50 text-red-800{% elif message.tags == 'success' %}bg-green-50 text-green-800{% else %}bg-blue-50 text-blue-800{% endif %}"
+      x-data="{ show: true }"
+      x-show="show"
+      x-transition
+    >
+      <div class="flex items-center justify-between">
+        <p>{{ message }}</p>
+        <button @click="show = false" class="text-current opacity-50 hover:opacity-100">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Main Content -->
+  <main class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  {% block footer %}
+  <footer class="bg-gray-900 text-gray-400 py-8 mt-auto">
+    <div class="container-page">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-sm">
+          Disneybound Planner - Plan magical outfits for your park visits
+        </p>
+        <p class="text-xs">
+          This is a fan project. Not affiliated with The Walt Disney Company.
+        </p>
+      </div>
+    </div>
+  </footer>
+  {% endblock footer %}
+
+  <!-- HTMX Loading Indicator -->
+  <div id="htmx-indicator" class="htmx-indicator fixed top-0 left-0 right-0 h-1 bg-disney-blue"></div>
+
+  {% block extra_js %}{% endblock %}
+
+  <script>
+    // HTMX configuration
+    document.body.addEventListener('htmx:configRequest', (event) => {
+      // Add CSRF token to all HTMX requests
+      event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    });
+
+    // Show loading indicator during HTMX requests
+    htmx.on('htmx:beforeRequest', () => {
+      document.getElementById('htmx-indicator').style.width = '30%';
+    });
+    htmx.on('htmx:afterRequest', () => {
+      document.getElementById('htmx-indicator').style.width = '100%';
+      setTimeout(() => {
+        document.getElementById('htmx-indicator').style.width = '0%';
+      }, 200);
+    });
+  </script>
+</body>
+</html>

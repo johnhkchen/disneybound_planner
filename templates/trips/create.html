@@ -1,0 +1,59 @@
+{% extends "layouts/app.html" %}
+
+{% block breadcrumbs %}
+<nav class="text-sm mb-4">
+  <a href="{% url 'trips:list' %}" class="text-link">My Trips</a>
+  <span class="text-gray-400 mx-2">/</span>
+  <span class="text-gray-600">New Trip</span>
+</nav>
+{% endblock %}
+
+{% block page_title %}Plan a Trip{% endblock %}
+
+{% block page_content %}
+<div class="max-w-2xl">
+  <form method="post" class="space-y-6">
+    {% csrf_token %}
+
+    <div class="card card-body space-y-4">
+      <div class="form-group">
+        <label class="form-label">Trip Name</label>
+        <input type="text" name="name" class="form-input" placeholder="Spring Break 2026">
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="form-group">
+          <label class="form-label">Start Date</label>
+          <input type="date" name="start_date" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">End Date</label>
+          <input type="date" name="end_date" class="form-input">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Destination</label>
+        <select name="destination" class="form-select">
+          <option value="wdw">Walt Disney World</option>
+          <option value="dlr">Disneyland Resort</option>
+          <option value="dlp">Disneyland Paris</option>
+          <option value="tdr">Tokyo Disney Resort</option>
+          <option value="hkdl">Hong Kong Disneyland</option>
+          <option value="shdl">Shanghai Disneyland</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Notes (optional)</label>
+        <textarea name="notes" class="form-textarea" rows="3" placeholder="Any special events or plans..."></textarea>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end gap-3">
+      <a href="{% url 'trips:list' %}" class="btn btn-secondary">Cancel</a>
+      <button type="submit" class="btn btn-primary">Create Trip</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

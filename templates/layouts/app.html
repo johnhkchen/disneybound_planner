@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{#
+  App Layout - For authenticated pages (outfits, trips, etc.)
+
+  Provides:
+  - Standard page structure with breadcrumbs
+  - Page header with title and actions
+  - Content area
+
+  Blocks:
+  - breadcrumbs: Optional breadcrumb navigation
+  - page_title: Main heading
+  - page_actions: Buttons/actions in header
+  - page_content: Main content area
+#}
+
+{% block content %}
+<div class="container-page py-8">
+  <!-- Breadcrumbs -->
+  {% block breadcrumbs %}{% endblock %}
+
+  <!-- Page Header -->
+  <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <div>
+      <h1 class="heading-1">{% block page_title %}Page Title{% endblock %}</h1>
+      {% block page_subtitle %}{% endblock %}
+    </div>
+    <div class="flex items-center gap-3">
+      {% block page_actions %}{% endblock %}
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div>
+    {% block page_content %}{% endblock %}
+  </div>
+</div>
+{% endblock content %}

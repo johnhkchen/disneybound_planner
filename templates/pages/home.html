@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Disneybound Planner - Plan Magical Outfits{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-disney-blue to-disney-blue-dark text-white py-20">
+  <div class="container-page text-center">
+    <h1 class="text-4xl sm:text-5xl font-bold mb-6">
+      Plan Your Perfect Disneybound
+    </h1>
+    <p class="text-xl text-blue-100 max-w-2xl mx-auto mb-8">
+      Create everyday outfits inspired by your favorite Disney characters.
+      Perfect for theme park visits where costumes aren't allowed.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="{% url 'characters:list' %}" class="btn bg-white text-disney-blue hover:bg-gray-100 btn-lg">
+        Browse Characters
+      </a>
+      {% if not user.is_authenticated %}
+      <a href="{% url 'account_signup' %}" class="btn btn-lg border-2 border-white text-white hover:bg-white/10">
+        Get Started Free
+      </a>
+      {% else %}
+      <a href="{% url 'outfits:list' %}" class="btn btn-lg border-2 border-white text-white hover:bg-white/10">
+        My Outfits
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="section bg-white">
+  <div class="container-page">
+    <h2 class="heading-2 text-center mb-12">How It Works</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Step 1 -->
+      <div class="text-center">
+        <div class="w-16 h-16 bg-disney-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="text-2xl font-bold text-disney-blue">1</span>
+        </div>
+        <h3 class="heading-3 mb-2">Choose a Character</h3>
+        <p class="text-body">
+          Browse our collection of Disney characters organized by category.
+          Find princesses, villains, Pixar pals, and more.
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="text-center">
+        <div class="w-16 h-16 bg-disney-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="text-2xl font-bold text-disney-blue">2</span>
+        </div>
+        <h3 class="heading-3 mb-2">Build Your Outfit</h3>
+        <p class="text-body">
+          Add clothing items that match your character's colors.
+          Get AI-powered suggestions to complete your look.
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="text-center">
+        <div class="w-16 h-16 bg-disney-blue/10 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="text-2xl font-bold text-disney-blue">3</span>
+        </div>
+        <h3 class="heading-3 mb-2">Plan Your Trip</h3>
+        <p class="text-body">
+          Assign outfits to specific days of your vacation.
+          Never show up to the park without a plan.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Categories Preview -->
+<section class="section bg-gray-50">
+  <div class="container-page">
+    <h2 class="heading-2 text-center mb-4">Explore by Category</h2>
+    <p class="text-body text-center max-w-2xl mx-auto mb-12">
+      Find the perfect character inspiration from across the Disney universe.
+    </p>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      {% for category in categories %}
+      <a href="{% url 'characters:list' %}?category={{ category.slug }}" class="card-hover p-4 text-center">
+        <div class="text-3xl mb-2">{{ category.emoji }}</div>
+        <h3 class="font-medium text-gray-900">{{ category.name }}</h3>
+        <p class="text-sm text-gray-500">{{ category.count }} characters</p>
+      </a>
+      {% empty %}
+      <!-- Placeholder categories for initial setup -->
+      <a href="{% url 'characters:list' %}" class="card-hover p-4 text-center">
+        <div class="text-3xl mb-2">👸</div>
+        <h3 class="font-medium text-gray-900">Princesses</h3>
+      </a>
+      <a href="{% url 'characters:list' %}" class="card-hover p-4 text-center">
+        <div class="text-3xl mb-2">🦹</div>
+        <h3 class="font-medium text-gray-900">Villains</h3>
+      </a>
+      <a href="{% url 'characters:list' %}" class="card-hover p-4 text-center">
+        <div class="text-3xl mb-2">🚀</div>
+        <h3 class="font-medium text-gray-900">Pixar</h3>
+      </a>
+      <a href="{% url 'characters:list' %}" class="card-hover p-4 text-center">
+        <div class="text-3xl mb-2">🦸</div>
+        <h3 class="font-medium text-gray-900">Marvel</h3>
+      </a>
+      <a href="{% url 'characters:list' %}" class="card-hover p-4 text-center">
+        <div class="text-3xl mb-2">⭐</div>
+        <h3 class="font-medium text-gray-900">Star Wars</h3>
+      </a>
+      <a href="{% url 'characters:list' %}" class="card-hover p-4 text-center">
+        <div class="text-3xl mb-2">🏰</div>
+        <h3 class="font-medium text-gray-900">Classic</h3>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+{% if not user.is_authenticated %}
+<section class="section bg-disney-gold/10">
+  <div class="container-narrow text-center">
+    <h2 class="heading-2 mb-4">Ready to Start Planning?</h2>
+    <p class="text-body mb-8">
+      Create a free account to save your outfits and plan your trips.
+    </p>
+    <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg">
+      Sign Up Free
+    </a>
+  </div>
+</section>
+{% endif %}
+{% endblock content %}

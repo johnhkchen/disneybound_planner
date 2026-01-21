@@ -1,0 +1,56 @@
+/*
+ * Disneybound Planner - Main Stylesheet
+ *
+ * This file is the entry point for Tailwind CSS.
+ * Semantic component classes are defined in components.css.
+ */
+
+@import "tailwindcss";
+@import "./components.css";
+
+/*
+ * Custom theme configuration for Disney-inspired design
+ */
+@theme {
+  /* Disney-inspired color palette */
+  --color-disney-blue: #006E99;
+  --color-disney-blue-dark: #005577;
+  --color-disney-blue-light: #4A9DBF;
+  --color-disney-gold: #C9A227;
+  --color-disney-gold-dark: #A68B1E;
+  --color-disney-purple: #7B4397;
+  --color-disney-pink: #E91E8C;
+  --color-disney-red: #E62B2E;
+
+  /* Character category colors */
+  --color-category-princess: #F8BBD9;
+  --color-category-villain: #4A1C6D;
+  --color-category-pixar: #00B4D8;
+  --color-category-marvel: #E62429;
+  --color-category-starwars: #1A1A1A;
+
+  /* Spacing scale extensions */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+
+  /* Border radius for magical feel */
+  --radius-disney: 1rem;
+}
+
+/*
+ * Base layer customizations
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-gray-800 bg-gray-50 antialiased;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-disney-blue;
+  }
+}

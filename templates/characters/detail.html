@@ -1,0 +1,56 @@
+{% extends "layouts/app.html" %}
+
+{% block breadcrumbs %}
+<nav class="text-sm mb-4">
+  <a href="{% url 'characters:list' %}" class="text-link">Characters</a>
+  <span class="text-gray-400 mx-2">/</span>
+  <span class="text-gray-600">Character Details</span>
+</nav>
+{% endblock %}
+
+{% block page_title %}Character Details{% endblock %}
+
+{% block page_actions %}
+<a href="{% url 'outfits:create' %}" class="btn btn-primary">
+  Create Outfit
+</a>
+{% endblock %}
+
+{% block page_content %}
+<div class="grid lg:grid-cols-3 gap-8">
+  <!-- Character Info -->
+  <div class="lg:col-span-1">
+    <div class="card card-body">
+      <div class="aspect-square bg-gray-100 rounded-lg mb-4"></div>
+      <h2 class="heading-2 mb-2">Character Name</h2>
+      <p class="text-muted mb-4">Movie Name (Year)</p>
+
+      <h3 class="heading-section">Color Palette</h3>
+      <div class="color-palette mb-4">
+        <div class="color-swatch bg-blue-400"></div>
+        <div class="color-swatch bg-white"></div>
+        <div class="color-swatch bg-yellow-300"></div>
+      </div>
+
+      <h3 class="heading-section">Tags</h3>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-primary">Princess</span>
+        <span class="badge badge-primary">Classic</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Outfit Ideas -->
+  <div class="lg:col-span-2">
+    <h3 class="heading-2 mb-6">Outfit Ideas</h3>
+    <div class="empty-state">
+      <p class="empty-state-description">
+        No community outfits for this character yet.
+      </p>
+      <a href="{% url 'outfits:create' %}" class="btn btn-primary mt-4">
+        Be the first to create one
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

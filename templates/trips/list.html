@@ -1,0 +1,45 @@
+{% extends "layouts/app.html" %}
+
+{% block page_title %}My Trips{% endblock %}
+
+{% block page_actions %}
+<a href="{% url 'trips:create' %}" class="btn btn-primary">
+  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+  </svg>
+  Plan New Trip
+</a>
+{% endblock %}
+
+{% block page_content %}
+{% if user.is_authenticated %}
+<div class="space-y-4">
+  <!-- Trip cards will go here -->
+  <div class="empty-state">
+    <div class="empty-state-icon">
+      <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+      </svg>
+    </div>
+    <h3 class="empty-state-title">No trips planned</h3>
+    <p class="empty-state-description">
+      Create a trip to start planning your Disneybound outfits for each day.
+    </p>
+    <a href="{% url 'trips:create' %}" class="btn btn-primary mt-4">
+      Plan a Trip
+    </a>
+  </div>
+</div>
+{% else %}
+<div class="card p-8 text-center">
+  <h3 class="heading-3 mb-2">Sign in to plan trips</h3>
+  <p class="text-body mb-4">
+    Create an account to plan your Disney vacations and assign outfits to each day.
+  </p>
+  <div class="flex items-center justify-center gap-3">
+    <a href="{% url 'account_login' %}" class="btn btn-secondary">Sign In</a>
+    <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "layouts/app.html" %}
+
+{% block breadcrumbs %}
+<nav class="text-sm mb-4">
+  <a href="{% url 'outfits:list' %}" class="text-link">My Outfits</a>
+  <span class="text-gray-400 mx-2">/</span>
+  <span class="text-gray-600">Outfit Details</span>
+</nav>
+{% endblock %}
+
+{% block page_title %}Outfit Details{% endblock %}
+
+{% block page_actions %}
+<button class="btn btn-secondary">Edit</button>
+<button class="btn btn-danger">Delete</button>
+{% endblock %}
+
+{% block page_content %}
+<div class="card card-body">
+  <p class="text-muted">Outfit details will be displayed here.</p>
+</div>
+{% endblock %}

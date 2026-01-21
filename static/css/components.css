@@ -1,0 +1,342 @@
+/*
+ * Disneybound Planner - Semantic Component Classes
+ *
+ * This file defines reusable component classes using @apply.
+ * Templates should use these semantic classes instead of inline utilities.
+ *
+ * Organization:
+ * 1. Layout Components
+ * 2. Typography
+ * 3. Buttons
+ * 4. Cards
+ * 5. Forms
+ * 6. Navigation
+ * 7. Character/Outfit Specific
+ * 8. HTMX States
+ */
+
+@layer components {
+  /* =========================================================================
+   * 1. LAYOUT COMPONENTS
+   * ========================================================================= */
+
+  .container-page {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-narrow {
+    @apply max-w-3xl mx-auto px-4 sm:px-6;
+  }
+
+  .section {
+    @apply py-12 sm:py-16;
+  }
+
+  .section-compact {
+    @apply py-6 sm:py-8;
+  }
+
+  /* =========================================================================
+   * 2. TYPOGRAPHY
+   * ========================================================================= */
+
+  .heading-1 {
+    @apply text-3xl sm:text-4xl font-bold tracking-tight text-gray-900;
+  }
+
+  .heading-2 {
+    @apply text-2xl sm:text-3xl font-semibold text-gray-900;
+  }
+
+  .heading-3 {
+    @apply text-xl sm:text-2xl font-semibold text-gray-900;
+  }
+
+  .heading-section {
+    @apply text-lg font-medium text-gray-900 mb-4;
+  }
+
+  .text-body {
+    @apply text-base text-gray-700 leading-relaxed;
+  }
+
+  .text-muted {
+    @apply text-sm text-gray-500;
+  }
+
+  .text-link {
+    @apply text-disney-blue hover:text-disney-blue-dark underline underline-offset-2;
+  }
+
+  /* =========================================================================
+   * 3. BUTTONS
+   * ========================================================================= */
+
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg
+           font-medium text-sm transition-all duration-200
+           focus-visible:outline-2 focus-visible:outline-offset-2
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-disney-blue text-white
+           hover:bg-disney-blue-dark
+           focus-visible:outline-disney-blue;
+  }
+
+  .btn-secondary {
+    @apply btn bg-white text-gray-700 border border-gray-300
+           hover:bg-gray-50 hover:border-gray-400
+           focus-visible:outline-gray-500;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-gray-600
+           hover:bg-gray-100 hover:text-gray-900;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white
+           hover:bg-red-700
+           focus-visible:outline-red-600;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  .btn-icon {
+    @apply p-2 rounded-lg;
+  }
+
+  /* =========================================================================
+   * 4. CARDS
+   * ========================================================================= */
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100;
+  }
+
+  .card-hover {
+    @apply card transition-shadow duration-200 hover:shadow-md;
+  }
+
+  .card-body {
+    @apply p-4 sm:p-6;
+  }
+
+  .card-header {
+    @apply px-4 sm:px-6 py-4 border-b border-gray-100;
+  }
+
+  .card-footer {
+    @apply px-4 sm:px-6 py-4 border-t border-gray-100 bg-gray-50 rounded-b-xl;
+  }
+
+  /* =========================================================================
+   * 5. FORMS
+   * ========================================================================= */
+
+  .form-group {
+    @apply space-y-1.5;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+
+  .form-input {
+    @apply w-full px-3 py-2 rounded-lg border border-gray-300
+           text-gray-900 placeholder-gray-400
+           focus:outline-none focus:ring-2 focus:ring-disney-blue focus:border-transparent
+           disabled:bg-gray-100 disabled:cursor-not-allowed;
+  }
+
+  .form-select {
+    @apply form-input appearance-none bg-no-repeat bg-right pr-10;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-size: 1.5em 1.5em;
+  }
+
+  .form-textarea {
+    @apply form-input resize-y min-h-[100px];
+  }
+
+  .form-checkbox {
+    @apply h-4 w-4 rounded border-gray-300 text-disney-blue
+           focus:ring-disney-blue focus:ring-offset-0;
+  }
+
+  .form-error {
+    @apply text-sm text-red-600 mt-1;
+  }
+
+  .form-help {
+    @apply text-sm text-gray-500 mt-1;
+  }
+
+  /* =========================================================================
+   * 6. NAVIGATION
+   * ========================================================================= */
+
+  .nav-header {
+    @apply bg-white border-b border-gray-200 sticky top-0 z-50;
+  }
+
+  .nav-link {
+    @apply text-gray-600 hover:text-gray-900 font-medium transition-colors;
+  }
+
+  .nav-link-active {
+    @apply text-disney-blue font-semibold;
+  }
+
+  .nav-mobile-menu {
+    @apply fixed inset-0 z-50 bg-white;
+  }
+
+  /* =========================================================================
+   * 7. CHARACTER & OUTFIT SPECIFIC
+   * ========================================================================= */
+
+  .character-card {
+    @apply card-hover cursor-pointer overflow-hidden;
+  }
+
+  .character-card-image {
+    @apply aspect-square w-full object-cover;
+  }
+
+  .character-card-body {
+    @apply p-4;
+  }
+
+  .character-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .character-badge-princess {
+    @apply character-badge bg-category-princess text-pink-800;
+  }
+
+  .character-badge-villain {
+    @apply character-badge bg-category-villain text-white;
+  }
+
+  .character-badge-pixar {
+    @apply character-badge bg-category-pixar text-white;
+  }
+
+  .color-swatch {
+    @apply w-8 h-8 rounded-full border-2 border-white shadow-sm;
+  }
+
+  .color-palette {
+    @apply flex -space-x-2;
+  }
+
+  .outfit-card {
+    @apply card-hover p-4;
+  }
+
+  .outfit-item {
+    @apply flex items-center gap-3 p-3 bg-gray-50 rounded-lg;
+  }
+
+  .outfit-item-type {
+    @apply text-xs font-medium text-gray-500 uppercase tracking-wide;
+  }
+
+  /* =========================================================================
+   * 8. HTMX STATES
+   * ========================================================================= */
+
+  /* Loading indicator for HTMX requests */
+  .htmx-request {
+    @apply opacity-50 pointer-events-none;
+  }
+
+  .htmx-request .htmx-indicator {
+    @apply opacity-100;
+  }
+
+  .htmx-indicator {
+    @apply opacity-0 transition-opacity;
+  }
+
+  /* Swap animation */
+  .htmx-swapping {
+    @apply opacity-0 transition-opacity duration-200;
+  }
+
+  .htmx-settling {
+    @apply opacity-100 transition-opacity duration-200;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    @apply animate-spin h-5 w-5 border-2 border-gray-300 border-t-disney-blue rounded-full;
+  }
+
+  /* =========================================================================
+   * 9. UTILITIES
+   * ========================================================================= */
+
+  .divider {
+    @apply border-t border-gray-200 my-6;
+  }
+
+  .avatar {
+    @apply w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center;
+  }
+
+  .avatar-sm {
+    @apply w-8 h-8;
+  }
+
+  .avatar-lg {
+    @apply w-14 h-14;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-disney-blue/10 text-disney-blue;
+  }
+
+  .badge-success {
+    @apply badge bg-green-100 text-green-800;
+  }
+
+  .badge-warning {
+    @apply badge bg-yellow-100 text-yellow-800;
+  }
+
+  .badge-danger {
+    @apply badge bg-red-100 text-red-800;
+  }
+
+  /* Empty states */
+  .empty-state {
+    @apply text-center py-12;
+  }
+
+  .empty-state-icon {
+    @apply mx-auto h-12 w-12 text-gray-400;
+  }
+
+  .empty-state-title {
+    @apply mt-4 text-lg font-medium text-gray-900;
+  }
+
+  .empty-state-description {
+    @apply mt-2 text-sm text-gray-500;
+  }
+}

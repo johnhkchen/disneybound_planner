@@ -1,0 +1,87 @@
+{% extends "layouts/app.html" %}
+
+{% block breadcrumbs %}
+<nav class="text-sm mb-4">
+  <a href="{% url 'outfits:list' %}" class="text-link">My Outfits</a>
+  <span class="text-gray-400 mx-2">/</span>
+  <span class="text-gray-600">New Outfit</span>
+</nav>
+{% endblock %}
+
+{% block page_title %}Create Outfit{% endblock %}
+
+{% block page_content %}
+<div class="grid lg:grid-cols-3 gap-8">
+  <!-- Main Form -->
+  <div class="lg:col-span-2">
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- Character Selection -->
+      <div class="card card-body">
+        <h3 class="heading-section">Character Inspiration</h3>
+        <div class="form-group">
+          <label class="form-label">Select a character to Disneybound</label>
+          <select name="character" class="form-select">
+            <option value="">Choose a character...</option>
+          </select>
+          <p class="form-help">Or leave empty to create a custom color palette</p>
+        </div>
+      </div>
+
+      <!-- Outfit Items -->
+      <div class="card card-body">
+        <h3 class="heading-section">Outfit Items</h3>
+
+        <div id="outfit-items" class="space-y-4">
+          <!-- Item template - will be duplicated via JS/HTMX -->
+          <div class="outfit-item">
+            <div class="flex-1 grid sm:grid-cols-3 gap-3">
+              <div class="form-group">
+                <label class="form-label">Type</label>
+                <select name="item_type[]" class="form-select">
+                  <option value="top">Top</option>
+                  <option value="bottom">Bottom</option>
+                  <option value="dress">Dress</option>
+                  <option value="shoes">Shoes</option>
+                  <option value="accessory">Accessory</option>
+                </select>
+              </div>
+              <div class="form-group sm:col-span-2">
+                <label class="form-label">Description</label>
+                <input type="text" name="item_description[]" class="form-input" placeholder="Light blue blouse">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary mt-4">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          Add Item
+        </button>
+      </div>
+
+      <!-- Save -->
+      <div class="flex items-center justify-end gap-3">
+        <a href="{% url 'outfits:list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save Outfit</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Sidebar - AI Suggestions -->
+  <div class="lg:col-span-1">
+    <div class="card card-body sticky top-24">
+      <h3 class="heading-section">AI Suggestions</h3>
+      <p class="text-muted mb-4">
+        Select a character to get AI-powered outfit suggestions.
+      </p>
+      <button type="button" class="btn btn-secondary w-full" disabled>
+        Get Suggestions
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
