@@ -1,7 +1,7 @@
 # Disneybound Planner - Project Dashboard
 
 > **Status**: Active Development
-> **Sprint**: 1 (Character Search)
+> **Sprint**: 2 (Character Persistence)
 > **Last Updated**: 2026-01-21
 
 ---
@@ -17,24 +17,36 @@
 
 ---
 
-## Current Sprint: Sprint 1 - Character Search
+## Current Sprint: Sprint 2 - Character Persistence
 
 ### Enhancement Proposals
 
 | ID | Title | Status | Tickets |
 |----|-------|--------|---------|
 | EP-001 | Project Foundation & Architecture | Complete | T-001, T-002, T-003 |
-| EP-002 | Character Search by Name | Draft | T-004, T-005, T-006 |
+| EP-002 | Character Search by Name | Complete | T-004, T-005, T-006 |
+| EP-003 | Doppler Secrets Management & Setup Wizard | In Progress | - |
+| EP-004 | Character Data Persistence & Thumbnails | Complete | - |
+| EP-005 | Production Hardening | Draft | - |
 
-### Active Tickets
+### Completed This Sprint
 
-| ID | Title | EP | Status | Assignee |
-|----|-------|-----|--------|----------|
-| T-004 | Create BAML character extraction function | EP-002 | Pending | - |
-| T-005 | Add character search view and URL | EP-002 | Pending | - |
-| T-006 | Build search UI with HTMX | EP-002 | Pending | - |
+| Feature | EP | Description |
+|---------|-----|-------------|
+| Character caching | EP-004 | LLM results cached in PostgreSQL |
+| TMDB thumbnails | EP-004 | Character images fetched from TMDB API |
+| Character catalog | EP-004 | Browse all searched characters with filtering |
+| Character detail page | EP-004 | View full character info and color palette |
 
-### Completed Tickets (Sprint 0)
+### Completed (Sprint 1)
+
+| ID | Title | EP | Status |
+|----|-------|-----|--------|
+| T-004 | Create BAML character extraction function | EP-002 | Done |
+| T-005 | Add character search view and URL | EP-002 | Done |
+| T-006 | Build search UI with HTMX | EP-002 | Done |
+
+### Completed (Sprint 0)
 
 | ID | Title | EP | Status |
 |----|-------|-----|--------|
@@ -67,8 +79,8 @@
 ## Project Statistics
 
 ```
-Enhancement Proposals: 2 active (1 complete, 1 draft), 0 archived
-Tickets:              6 total (3 done, 3 pending), 0 archived
+Enhancement Proposals: 5 active (3 complete, 1 in progress, 1 draft), 0 archived
+Tickets:              6 total (6 done, 0 pending), 0 archived
 Patterns:             0 documented
 Runbook Entries:      0 documented
 ```
