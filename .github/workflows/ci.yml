@@ -82,6 +82,9 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
+      - name: Generate BAML client
+        run: uv run baml-cli generate
+
       - name: Run tests with coverage
         env:
           DATABASE_URL: postgres://test:test@localhost:5432/test
