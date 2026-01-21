@@ -15,6 +15,8 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     # Home
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    # Health check (for Fly.io monitoring)
+    path("", include("apps.core.urls")),
     # Apps
     path("characters/", include("apps.characters.urls", namespace="characters")),
     path("outfits/", include("apps.outfits.urls", namespace="outfits")),

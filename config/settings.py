@@ -70,6 +70,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
+    "apps.core",
     "apps.accounts",
     "apps.characters",
     "apps.outfits",
@@ -294,6 +295,13 @@ if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
+    # CSRF trusted origins for Fly.io
+    CSRF_TRUSTED_ORIGINS = env.list(
+        "CSRF_TRUSTED_ORIGINS",
+        default=[
+            "https://*.fly.dev",
+        ],
+    )
 
 # =============================================================================
 # LOGGING
